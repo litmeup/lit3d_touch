@@ -1,0 +1,135 @@
+@import "reset.css";
+@import "variables.css";
+
+.rmh-frame {
+    width: var(--width);
+    height: var(--height);
+    background-image: url('/master/zadnik.png');
+    background-size: cover;
+    overflow: hidden;
+    position: relative;
+}
+.rmh-frame__border {
+    width: var(--width);
+    height: var(--height);
+    background-image: url('/master/ramka.png');
+    background-size: cover;
+    padding: var(--frame-width);
+    padding-bottom: 0;
+}
+.rmh-frame__scrollbar, .mb-track-y {
+    background-image: url('/master/prokrutka-zadnik.png');
+    width: 107px !important;
+    height: 699px !important;
+    /*position: absolute;*/
+    right: 0 !important;
+    top: calc(115px + 66px) !important;
+    /*right: var(--frame-width);
+    top: calc(var(--frame-width) + var(--frame-gap));*/
+    z-index: 100;
+    border-radius: 0 !important;
+}
+.rmh-frame__scrollbar-close {
+    width: 107px;
+    height: 107px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: transparent;
+    border: 0;
+    outline: none;
+}
+.rmh-frame__scrollbar-top,
+.rmh-frame__scrollbar-bottom {
+    height: 68px;
+    width: 107px;
+    position: absolute;
+    background: transparent;
+    border: 0;
+    outline: none;
+}
+.rmh-frame__scrollbar-top {
+    top: 107px;
+}
+.rmh-frame__scrollbar-bottom {
+    bottom: 0;
+}
+.rmh-frame__scrollbar-handler, .mb-bar {
+    background-image: url('/master/prokrutka.png');
+    width: 107px !important;
+    height: 228px !important;;
+    border-radius: 0;
+    /*position: absolute;
+    right: 0;
+    top: calc(107px + 68px + 5px);*/
+}
+
+.rmh-frame__helper {
+    background-image: url('/master/btn-podskazka.png');
+    width: 112px;
+    height: 226px;
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+}
+.rmh-frame .rmh-content {
+    position: absolute;
+    top: calc(var(--frame-width) + var(--frame-gap));
+    left: var(--frame-width);
+    width: calc(var(--width) - 2 * var(--frame-width));
+    height: calc(var(--height) - var(--frame-width) - var(--frame-gap));
+    overflow: scroll;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    pointer-events: none;
+}
+
+
+::-webkit-scrollbar {
+    width: 107px !important;
+}
+ 
+::-webkit-scrollbar-track {
+    background-image: url('/master/prokrutka-zadnik.png');
+    width: 107px !important;
+    height: 699px !important;
+    /*position: absolute;*/
+    right: 0 !important;
+    top: calc(115px + 66px) !important;
+    /*right: var(--frame-width);
+    top: calc(var(--frame-width) + var(--frame-gap));*/
+    z-index: 100;
+    border-radius: 0 !important;
+}
+ 
+::-webkit-scrollbar-thumb {
+    background-image: url('/master/prokrutka.png');
+    width: 107px !important;
+    height: 228px !important;
+    border-radius: 0;
+    background-size: 100% 100%;
+}
+
+figcaption {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    border: 1px solid #ff0000;
+    top: var(--y1);
+    left: var(--x1);
+    width: calc(var(--x2) - var(--x1));
+    height: calc(var(--y2) - var(--y1));
+}
+
+figcaption a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}

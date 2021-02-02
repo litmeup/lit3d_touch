@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "resolveJsonModule": true,
+
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    "moduleResolution": "Node",
+    "module": "ESNext",
+    "target": "ESNext",
+
+    "newLine": "lf",
+    "removeComments": true,
+    "disableSizeLimit": true,
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": false,
+
+    "strict": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    "lib": ["DOM"]
+  },
+  "exclude": ["node_modules", "**/*.spec.ts", "src/app.js", "dist/*"]
+}

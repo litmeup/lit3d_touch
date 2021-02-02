@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>RMH Touch</title>
+	<link rel="stylesheet" href="frame.css">
+	<script src="/dist/main.js?12123" type="module"></script>
+</head>
+<body>
+	<div class="rmh-frame">
+		<div class="rmh-frame__border">
+			<button class="rmh-frame__helper"></button>
+		</div>
+
+		<div class="rmh-content" id="rmh-content">
+			<img src="1-2-3/867-978-4-svyatoslav-ru.png" width="1697" alt="" usemap="#image-map">
+			<map name="image-map">
+			    <area target="" class="a-link" alt="Разгром Хазарского каганата" title="Разгром Хазарского каганата" data-href="/1-2-3/1-1.png" coords="636,608,61,121" shape="rect">
+			    <area target="" class="a-link" alt="Князь Святослав" title="Князь Святослав" href="/1-2-3/2-1.png" coords="654,136,1031,607" shape="rect">
+			    <area target="" class="a-link" alt="Война с Византией" title="Война с Византией" href="#link3" coords="1053,130,1639,617" shape="rect">
+			    <area target="" class="a-link" alt="Захват Болгарии" title="Захват Болгарии" href="#link4" coords="59,611,647,917" shape="rect">
+			    <area target="" class="a-link" alt="Пристрастие к язычеству" title="Пристрастие к язычеству" href="#link5" coords="651,608,1050,917" shape="rect">
+			    <area target="" class="a-link" alt="Гибель" title="Гибель" href="#link6" coords="1629,916,1053,619" shape="rect">
+			</map>
+		</div>
+
+	</div>
+
+	<template id="start">
+		<img src="1-2-3/867-978-4-svyatoslav-ru.png" alt="" usemap="#image-map">
+			<map name="image-map">
+			    <area target="" class="a-link" alt="Разгром Хазарского каганата" title="Разгром Хазарского каганата" href="#link1" coords="636,608,61,121" shape="rect">
+			    <area target="" class="a-link" alt="Князь Святослав" title="Князь Святослав" href="#link2" coords="654,136,1031,607" shape="rect">
+			    <area target="" class="a-link" alt="Война с Византией" title="Война с Византией" href="#link3" coords="1053,130,1639,617" shape="rect">
+			    <area target="" class="a-link" alt="Захват Болгарии" title="Захват Болгарии" href="#link4" coords="59,611,647,917" shape="rect">
+			    <area target="" class="a-link" alt="Пристрастие к язычеству" title="Пристрастие к язычеству" href="#link5" coords="651,608,1050,917" shape="rect">
+			    <area target="" class="a-link" alt="Гибель" title="Гибель" href="#link6" coords="1629,916,1053,619" shape="rect">
+			</map>
+	</template>
+
+	<template id="link1">
+		<img src="1-2-3/1-1.png" alt="">
+			<div class="rmh-frame__scrollbar">
+				<a class="rmh-frame__scrollbar-close a-link" href="#start"></a>
+				<button class="rmh-frame__scrollbar-top"></button>
+				<button class="rmh-frame__scrollbar-bottom"></button>
+				<div class="rmh-frame__scrollbar-handler"></div>
+			</div>
+	</template>
+
+	<template id="link1">
+		<img src="1-2-3/2-1.png" alt="">
+			<div class="rmh-frame__scrollbar">
+				<a class="rmh-frame__scrollbar-close a-link" href="#start"></a>
+				<button class="rmh-frame__scrollbar-top"></button>
+				<button class="rmh-frame__scrollbar-bottom"></button>
+				<div class="rmh-frame__scrollbar-handler"></div>
+			</div>
+	</template>
+
+	<template id="scrollbar">
+		<div class="rmh-frame__scrollbar">
+			<a class="rmh-frame__scrollbar-close a-link" href="#start"></a>
+			<button class="rmh-frame__scrollbar-top"></button>
+			<button class="rmh-frame__scrollbar-bottom"></button>
+			<div class="rmh-frame__scrollbar-handler"></div>
+		</div>
+	</template>
+</body>
+</html>

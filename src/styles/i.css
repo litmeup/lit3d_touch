@@ -1,0 +1,44 @@
+.iii {
+    width: 70px;
+    height: 70px;
+    
+    border: 6px double #fff;
+    border-radius: 50%;
+    
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    animation: 2s linear calc(var(--delay,0) * 1s) infinite pulse;
+    visibility: hidden;
+    color: #fff;
+  }
+  
+  .iii:before {
+    display: block;
+    content: "i";
+    
+  }
+  
+  @keyframes pulse { 
+    0% { 
+      visibility:visible;  
+      opacity: 0;
+      transform: scale(0) translate(
+        calc(var(--start-x, 0) * 100%),
+        calc(var(--start-y, 0) * 100%)
+      );
+    }
+    80% {
+      opacity: 1;
+    }
+    100% { 
+        visibility:visible;  
+      opacity: 0;
+      transform: scale(1) translate(
+        calc( (var(--start-x, 0) + var(--translate-x, 0) ) * 100%),
+        calc( (var(--start-y, 0) + var(--translate-y, 0) ) * 100%)
+      );
+    }
+  }
