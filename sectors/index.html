@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <script type="module">
+        import sectorCoords from './main.mjs';
+
+        let R = 500, alpha = 75, n = 3;
+
+        let canvas = document.getElementById('cnv');
+        let ctx = canvas.getContext('2d');
+        ctx.arc(500, 700, R, 0, Math.PI, true);
+        ctx.stroke();
+
+        let coords = sectorCoords(alpha, R, n);
+        console.log(coords)
+        coords = coords.map(([x,y])=>[x+500, y+700]);
+        ctx.beginPath();
+        ctx.moveTo(...(coords[0]));
+    
+        for(let i=1;i<coords.length;i++) {
+            ctx.lineTo(...(coords[i]));
+        }
+        ctx.stroke();
+
+    </script>
+</head>
+<body>
+    <canvas id="cnv" width="1000" height="1000"></canvas>
+</body>
+</html>
