@@ -29,16 +29,23 @@
     z-index: 100;
     border-radius: 0 !important;
 }
-.rmh-frame__scrollbar-close {
+.rmh-frame__close {
     width: 107px;
     height: 107px;
     position: absolute;
-    right: 0;
-    top: 0;
+    top: calc(var(--frame-width) + var(--frame-gap));
+    right: var(--frame-width);
     background: transparent;
     border: 0;
     outline: none;
+    background-image: url('/master/close.png');
+    z-index: 200;
+    display: none;
 }
+.section-mode .rmh-frame__close {
+    display: block;
+}
+
 .rmh-frame__scrollbar-top,
 .rmh-frame__scrollbar-bottom {
     height: 68px;
@@ -77,24 +84,35 @@
     top: calc(var(--frame-width) + var(--frame-gap));
     left: var(--frame-width);
     width: calc(var(--width) - 2 * var(--frame-width));
-    height: calc(var(--height) - var(--frame-width) - var(--frame-gap));
-    overflow: scroll;
+    height: calc(var(--height) - var(--frame-width) + var(--frame-gap));
+    overflow: auto; 
 }
 
 canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: fixed;
+    top: calc(var(--frame-width) + var(--frame-gap));
+    left: var(--frame-width);
     z-index: 100;
     pointer-events: none;
 }
 
 
-::-webkit-scrollbar {
+.rmh-frame .rmh-content::-webkit-scrollbar {
+    
+   
+    background-color: transparent;
+    background-image: none;
+
+    width: 0px !important;
+    transition: 3s;
+}
+
+.section-mode .rmh-frame .rmh-content::-webkit-scrollbar {
+    opacity: 100;
     width: 107px !important;
 }
  
-::-webkit-scrollbar-track {
+.rmh-frame .rmh-content::-webkit-scrollbar-track {
     background-image: url('/master/prokrutka-zadnik.png');
     width: 107px !important;
     height: 699px !important;
@@ -105,9 +123,11 @@ canvas {
     top: calc(var(--frame-width) + var(--frame-gap));*/
     z-index: 100;
     border-radius: 0 !important;
+    transform: translateY(107px);
+    margin-top: 107px;
 }
  
-::-webkit-scrollbar-thumb {
+.rmh-frame .rmh-content::-webkit-scrollbar-thumb {
     background-image: url('/master/prokrutka.png');
     width: 107px !important;
     height: 228px !important;
@@ -121,7 +141,7 @@ figcaption {
     align-items: center;
 
     position: absolute;
-    border: 1px solid #ff0000;
+    /* border: 1px solid #ff0000; */
     top: var(--y1);
     left: var(--x1);
     width: calc(var(--x2) - var(--x1));
@@ -132,4 +152,17 @@ figcaption a {
     display: block;
     width: 100%;
     height: 100%;
+}
+
+section {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+section img {
+    max-width: 100%;
 }

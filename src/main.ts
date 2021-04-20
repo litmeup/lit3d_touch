@@ -46,20 +46,20 @@ class Figcaption extends EventTarget {
     }
 
     private readonly onClick = () => {
-        const event = new CustomEvent<HTMLImageElement>(CHANGE_SECTION_EVENT, {detail:this.section.image})
+        const event = new CustomEvent<Section>(CHANGE_SECTION_EVENT, {detail:this.section})
         this.dispatchEvent(event)
     }
 
     initIII(col: number = 10) {
         function randomMinMax(min: number, max: number) {
             return Math.random() * (max - min) + min
-          }
+        }
           
-          function random() {
+        function random() {
             return randomMinMax(-1.5, 1.5)
-          }
+        }
           
-         for (let i = 0; i < col; i++) {
+        for (let i = 0; i < col; i++) {
             const div = document.createElement("span")
             div.classList.add("iii")
             const [sx, sy] = [random(), random()]
@@ -71,7 +71,7 @@ class Figcaption extends EventTarget {
             const delay = Math.random()*3
             div.style.setProperty("--delay", String(delay))
             this.node.appendChild(div)
-          }
+        }
     }
 }
 
@@ -84,7 +84,7 @@ export class Main {
         return node
     }
 
-    static imageResize(image:HTMLImageElement, width:number, height:number) {
+    static imageResize(image:HTMLImageElement, width:number, height:number, top:number = 0, right:number = 0) {
         const canvas = document.createElement("canvas");
         canvas.width = width;
         canvas.height = height;
@@ -92,9 +92,10 @@ export class Main {
         if(!cont2d) {
             throw new Error(`2d context creation error`)
         }
-        const delta = width / image.naturalWidth
+        const imageWidth = width - right
+        const delta = imageWidth / image.naturalWidth
         const newHeight = image.naturalHeight * delta
-        cont2d.drawImage(image, 0, 0, width, newHeight);
+        cont2d.drawImage(image, 0, top, imageWidth, newHeight);
         return canvas;
     }
 
@@ -103,8 +104,10 @@ export class Main {
     private areas:Array<Figcaption> = []
     private readonly canvas:HTMLCanvasElement
     private readonly image:HTMLImageElement
+    private currentSection:any
     private readonly gl:WebGLRenderingContext
     private readonly transition:Transition
+    private scrollFlag:boolean = false
 
     constructor(mainNode:HTMLElement) {
         this.node = mainNode
@@ -118,6 +121,9 @@ export class Main {
         this.gl = this.initWebGL()
 
         this.transition = this.initTransition("InvertedPageCurl")
+
+        Main.getNodeBySelector<HTMLElement>(document.body, ".rmh-frame__close").addEventListener("click", this.onClose)
+
     }
 
     addSection(section:Section) {
@@ -131,17 +137,38 @@ export class Main {
         return [width, height]
     }
 
-    private readonly onChangeSection = ((event:CustomEvent<HTMLImageElement>) => {
+    private readonly onChangeSection = ((event:CustomEvent<Section>) => {
         const [width, height] = this.size
         const imageFrom = Main.imageResize(this.image, width, height)
-        const imageTo = Main.imageResize(event.detail, width, height)
+        const imageTo = Main.imageResize(event.detail.image, width, height, 0, 107)
+
+        const textureFrom = this.initTexture(imageFrom)
+        const textureTo = this.initTexture(imageTo)
+        if(event.currentTarget) {
+            console.log(event.detail.node)
+        }
+        this.canvas.style.opacity = "100";
+        this.currentSection = event.detail
+
+        this.renderTransition(textureFrom, textureTo, width, height, 3000).then(this.afterTransition)
+
+    }) as EventListener
+
+    private readonly onClose = (() => {
+        console.log(this.scrollTop)
+        const [width, height] = this.size
+        const imageTo = Main.imageResize(this.image, width, height)
+        const imageFrom = Main.imageResize(this.currentSection.image, width, height, this.scrollTop * -1, 107)
 
         const textureFrom = this.initTexture(imageFrom)
         const textureTo = this.initTexture(imageTo)
 
-        this.renderTransition(textureFrom, textureTo, width, height).then()
+        this.canvas.style.opacity = "100"
+        document.body.classList.remove("section-mode")
+        this.currentSection = null
+        this.renderTransition(textureFrom, textureTo, width, height, 3000).then(this.afterTransition)
 
-    }) as EventListener
+    }) as EventListener    
 
     private initWebGL() {
         const [width, height] = this.size
@@ -195,5 +222,45 @@ export class Main {
             };
             requestAnimationFrame(loop);
         })
+    }
+
+    get scrollTop():number {
+        return document.body.querySelector("#rmh-content")!.scrollTop
+    }
+
+    set scrollTop(value:number) {
+        document.body.querySelector("#rmh-content")!.scrollTop = value
+    }
+    
+    private readonly startScroll = () => {
+        console.log("scroll")
+        this.scrollFlag = true;
+    }
+
+    private afterTransition = () => {
+        this.canvas.style.opacity = "0"
+ 
+        if(this.currentSection) {
+            this.currentSection.node.style.display = "block"
+            document.body.classList.add("section-mode")
+            let progress:number = 0
+            const loop = () => {
+                progress = progress + 1
+                this.scrollTop = progress
+
+                if (progress < 3000 && !this.scrollFlag) {
+                    requestAnimationFrame(loop);
+                }
+            };
+            requestAnimationFrame(loop);
+
+            window.addEventListener('pointerdown', this.startScroll);
+        }
+        else {
+            document.querySelectorAll("section").forEach((item) => { item.style.display = "none" })
+            window.removeEventListener('pointerdown', this.startScroll);
+            this.scrollFlag = false;
+        }
+        
     }
 }

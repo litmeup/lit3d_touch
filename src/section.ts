@@ -1,5 +1,5 @@
 export class Section {
-    private readonly node:HTMLElement
+    readonly node:HTMLElement
     readonly image:HTMLImageElement
 
     constructor(mainNode:HTMLElement) {
