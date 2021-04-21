@@ -5,31 +5,78 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    
+    <script src="https://pagecdn.io/lib/mathjs/7.1.0/math.min.js"></script>
+    <script src="../node_modules/three/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.116.1/examples/js/controls/OrbitControls.js"></script>
     <script type="module">
-        import sectorCoords from './main.mjs';
+        import { sectorCoords, boxSize, sectorTransforms } from './main.mjs';
 
-        let R = 500, alpha = 75, n = 3;
+        let R = 1, alpha = 70, n = 3;
 
-        let canvas = document.getElementById('cnv');
-        let ctx = canvas.getContext('2d');
-        ctx.arc(500, 700, R, 0, Math.PI, true);
-        ctx.stroke();
+        // let canvas = document.getElementById('cnv');
+        // let ctx = canvas.getContext('2d');
+        // ctx.arc(500, 700, R, 0, Math.PI, true);
+        // ctx.stroke();
 
-        let coords = sectorCoords(alpha, R, n);
-        console.log(coords)
-        coords = coords.map(([x,y])=>[x+500, y+700]);
-        ctx.beginPath();
-        ctx.moveTo(...(coords[0]));
+        // let coords = sectorCoords(alpha, R, n);
+        // console.log(coords)
+        // coords = coords.map(([x,y])=>[x+500, y+700]);
+        // ctx.beginPath();
+        // ctx.moveTo(...(coords[0]));
     
-        for(let i=1;i<coords.length;i++) {
-            ctx.lineTo(...(coords[i]));
-        }
-        ctx.stroke();
+        // for(let i=1;i<coords.length;i++) {
+        //     ctx.lineTo(...(coords[i]));
+        // }
+        // ctx.stroke();
 
+
+        var camera, scene, renderer;
+
+        init();
+        animate();
+
+        function init() {
+
+            camera = new THREE.PerspectiveCamera( alpha, window.innerWidth / window.innerHeight, 0.01, 10 );
+            camera.position.z = 4;
+
+            scene = new THREE.Scene();
+
+            let size = boxSize(alpha, R, n, 0.5625);
+
+            let transforms = sectorTransforms(alpha, R, n);
+
+            for(let i=0;i<n;i++) {
+                let geometry = new THREE.BoxBufferGeometry(size.w,size.h,0.001);
+                let m = new THREE.Matrix4();
+                m.set(...transforms[i]);
+                geometry.applyMatrix4(m);
+       
+                var material = new THREE.MeshNormalMaterial();
+
+                var mesh = new THREE.Mesh( geometry, material );
+                scene.add( mesh );
+            }
+            
+            scene.add( new THREE.AxesHelper( 2 ) );
+
+            renderer = new THREE.WebGLRenderer( { antialias: true } );
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            document.body.appendChild( renderer.domElement );
+                
+            var controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+        }
+
+        function animate() {
+
+            requestAnimationFrame( animate );
+            renderer.render( scene, camera );
+
+        }
     </script>
 </head>
 <body>
-    <canvas id="cnv" width="1000" height="1000"></canvas>
+
 </body>
 </html>
