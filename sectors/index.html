@@ -11,7 +11,7 @@
     <script type="module">
         import { sectorCoords, boxSize, sectorTransforms } from './main.mjs';
 
-        let R = 1, alpha = 70, n = 3;
+        let R = 1, alpha = 70, n = 3, aspect = 0.5625;
 
         // let canvas = document.getElementById('cnv');
         // let ctx = canvas.getContext('2d');
@@ -38,13 +38,13 @@
         function init() {
 
             camera = new THREE.PerspectiveCamera( alpha, window.innerWidth / window.innerHeight, 0.01, 10 );
-            camera.position.z = 4;
+            camera.position.x = 0.5;
 
             scene = new THREE.Scene();
 
-            let size = boxSize(alpha, R, n, 0.5625);
+            const size = boxSize(alpha, R, n, aspect);
 
-            let transforms = sectorTransforms(alpha, R, n);
+            const transforms = sectorTransforms(alpha, R, n);
 
             for(let i=0;i<n;i++) {
                 let geometry = new THREE.BoxBufferGeometry(size.w,size.h,0.001);
@@ -52,7 +52,13 @@
                 m.set(...transforms[i]);
                 geometry.applyMatrix4(m);
        
-                var material = new THREE.MeshNormalMaterial();
+                //var material = new THREE.MeshNormalMaterial();
+
+                const loader = new THREE.TextureLoader();
+ 
+                const material = new THREE.MeshBasicMaterial({
+                    map: loader.load("../1-2-3/867-978-4-svyatoslav-ru.png"),
+                });
 
                 var mesh = new THREE.Mesh( geometry, material );
                 scene.add( mesh );
