@@ -1,8 +1,9 @@
 export function sectorCoords(alpha, R, n) {
     let coords = [];
     let alphaRad =  alpha * Math.PI / 180;
+    let beta = alphaRad / n;
     for(let i=0; i < (n+1); i++) {
-        let gamma = -1 * 90 * Math.PI / 180 - alphaRad * (0.5 - i / n);
+        let gamma = 180 * Math.PI / 180 - alphaRad * (0.5 - i / n) + 0.5*beta;
         let x = Math.cos(gamma) * R;
         let y = Math.sin(gamma) * R;
         coords[i] = [x, y, gamma];
@@ -37,3 +38,10 @@ export function boxSize(alpha, R, n, aspect) {
     let H = W * aspect;
     return {w: W, h: H};
 }
+
+// export function getLookAt(alpha, R, n) {
+//     let secCoords = sectorCoords(alpha, R, n);
+//     if (n%2 > 0) {
+
+//     }
+// }
