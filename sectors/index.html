@@ -15,7 +15,7 @@
     <script type="module">
         import { sectorCoords, boxSize, sectorTransforms } from './main.mjs';
 
-        let R = 10, alpha = 75, n = 3, aspect = 1080/1920;
+        let R = 10, alpha = 75, n = 2, aspect = 1080/1920;
         let meshId = 0;
         // let canvas = document.getElementById('cnv');
         // let ctx = canvas.getContext('2d');
@@ -144,8 +144,8 @@
                 console.log(mesh.position);
                 objects3DCollection[i] = mesh;
 
-                const box = new THREE.BoxHelper( mesh, 0xffff00 );
-                scene.add( box );
+                // const box = new THREE.BoxHelper( mesh, 0xffff00 );
+                // scene.add( box );
         
                 let startCameraRotation = camera.rotation.y;
               
@@ -197,10 +197,8 @@
                         let camRad = 45*Math.PI/180;
                         let alphaRad = alpha*Math.PI/180
                         let camAspect = 45/alpha;
-                        //let cameraStop = -1 * R * (1 - Math.cos(alphaRad/2) / Math.cos(alphaRad/(2*n)));
                         let cameraStop = -1 * Math.abs( size.w/2 / Math.tan( camRad/2) ) *  aspect;
                         console.log("cameraStop", cameraStop);
-                        //let cameraStop = -1*R*camAspect;
 
                         to = { x: objects3DCollection[meshId].position.x + cameraStop*Math.sin(sectCoords[meshId][2]), 
                             z: objects3DCollection[meshId].position.z + cameraStop*Math.cos(sectCoords[meshId][2]),
