@@ -15,7 +15,7 @@
     <script type="module">
         import { sectorCoords, boxSize, sectorTransforms } from './main.mjs';
 
-        let R = 10, alpha = 75, n = 2, aspect = 1080/1920;
+        let R = 10, alpha = 75, n = 3, aspect = 1080/1920;
         let meshId = 0;
         // let canvas = document.getElementById('cnv');
         // let ctx = canvas.getContext('2d');
@@ -124,17 +124,17 @@
             //camera.lookAt(R, 0, 0);
             console.log("Camera rotation after lookat", camera.rotation.y * 180 / Math.PI)
             for(let i=0;i<n;i++) {
-                let geometry = new THREE.BoxBufferGeometry(size.w,size.h,0.1);
+                let geometry = new THREE.BoxBufferGeometry(size.w,size.h,0.001);
                 let m = new THREE.Matrix4();
                 m.set(...transforms[i]);
               
-                var material = new THREE.MeshNormalMaterial();
+                //var material = new THREE.MeshNormalMaterial();
 
-                // const loader = new THREE.TextureLoader();
+                const loader = new THREE.TextureLoader();
  
-                // const material = new THREE.MeshBasicMaterial({
-                //     map: loader.load(`../1-2-3/${i+1}.png`),
-                // });
+                const material = new THREE.MeshBasicMaterial({
+                    map: loader.load(`../1-2-3/${i+1}.png`),
+                });
 
                 var mesh = new THREE.Mesh( geometry, material );
                 mesh.applyMatrix4(m);
@@ -143,6 +143,9 @@
                 mesh.userData.active = false;
                 console.log(mesh.position);
                 objects3DCollection[i] = mesh;
+
+                const box = new THREE.BoxHelper( mesh, 0xffff00 );
+                scene.add( box );
         
                 let startCameraRotation = camera.rotation.y;
               
@@ -194,7 +197,9 @@
                         let camRad = 45*Math.PI/180;
                         let alphaRad = alpha*Math.PI/180
                         let camAspect = 45/alpha;
-                        let cameraStop = -1 * R * (1 - Math.cos(alphaRad/2) / Math.cos(alphaRad/(2*n)));
+                        //let cameraStop = -1 * R * (1 - Math.cos(alphaRad/2) / Math.cos(alphaRad/(2*n)));
+                        let cameraStop = -1 * Math.abs( size.w/2 / Math.tan( camRad/2) ) *  aspect;
+                        console.log("cameraStop", cameraStop);
                         //let cameraStop = -1*R*camAspect;
 
                         to = { x: objects3DCollection[meshId].position.x + cameraStop*Math.sin(sectCoords[meshId][2]), 
@@ -202,8 +207,8 @@
                             q: sectCoords[meshId][2] - Math.PI
                         };
 
-                        console.log("x",objects3DCollection[meshId].position.x + size.w*Math.cos(sectCoords[meshId][2])/2)
-                        console.log("z",objects3DCollection[meshId].position.z + size.w*Math.sin(sectCoords[meshId][2])/2 + 1)
+                        console.log("x",objects3DCollection[meshId].position.x + cameraStop*Math.sin(sectCoords[meshId][2]))
+                        console.log("z",objects3DCollection[meshId].position.z + cameraStop*Math.cos(sectCoords[meshId][2]))
                     
                     }
 
